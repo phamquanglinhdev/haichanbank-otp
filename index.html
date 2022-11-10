@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <title>HaiChanBank OTP</title>
+</head>
+<body class="bg-light">
+<div class="p-2 py-3 bg-success text-center text-white font-weight-bold">
+    SĐT Của Bạn : <span id="phone"></span>
+</div>
+<hr>
+<div class="message p-2 bg-light border" style="height: 500px; overflow-y:scroll">
+    <div class="message-box m-2 p-2  bg-white border-success border p-2 rounded d-none">
+        <dic class="content">
+            MÃ OTP Của bạn : H-129090, vui lòng không chia sẻ cho bất kỳ ai
+        </dic>
+        <hr>
+        <div class="text-right text-muted small">12-09-2022 18:01</div>
+    </div>
+</div>
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+<script>
+    window.api.getPhone((phone) => {
+        $("#phone").text(phone)
+    })
+    let genesis = $(".message-box:nth-child(1)")
+    window.api.getLocalMessage((messages) => {
+        $(".message").empty()
+        messages.forEach(function (message) {
+            create(message.inbox, message.timestamps)
+        })
+    })
+
+    function create(message, clock) {
+        let box = genesis.clone()
+        $(box).find(".content").text(message)
+        $(box).find(".text-muted").text(clock)
+        $(box).removeClass("d-none")
+        $(".message").append(box)
+    }
+</script>
+</body>
+</html>
